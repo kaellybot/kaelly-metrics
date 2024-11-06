@@ -3,25 +3,28 @@ package application
 import (
 	amqp "github.com/kaellybot/kaelly-amqp"
 	"github.com/kaellybot/kaelly-metrics/models/constants"
+	metricRepo "github.com/kaellybot/kaelly-metrics/repositories/metrics"
 	"github.com/kaellybot/kaelly-metrics/services/metrics"
+	"github.com/kaellybot/kaelly-metrics/utils/databases"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
 func New() (*Impl, error) {
 	// misc
-	// TODO influx
+	db := databases.New()
 
-	broker, err := amqp.New(constants.RabbitMQClientID, viper.GetString(constants.RabbitMQAddress), nil)
+	broker, err := amqp.New(constants.RabbitMQClientID, viper.GetString(constants.RabbitMQAddress),
+		[]amqp.Binding{metrics.GetBinding()})
 	if err != nil {
 		return nil, err
 	}
+
+	// repositories
+	metricRepo := metricRepo.New(db)
 
 	// services
-	metricService, err := metrics.New(broker)
-	if err != nil {
-		return nil, err
-	}
+	metricService := metrics.New(broker, metricRepo)
 
 	return &Impl{
 		metricService: metricService,
