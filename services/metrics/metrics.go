@@ -2,7 +2,6 @@ package metrics
 
 import (
 	"context"
-	"fmt"
 
 	amqp "github.com/kaellybot/kaelly-amqp"
 	"github.com/kaellybot/kaelly-metrics/repositories/metrics"
@@ -31,6 +30,5 @@ func (service *Impl) Consume() error {
 
 func (service *Impl) consume(ctx context.Context,
 	message *amqp.RabbitMQMessage, correlationID string) {
-	// TODO
-	fmt.Printf("coucou %v\n", correlationID)
+	service.repository.Write(ctx, message, correlationID)
 }
