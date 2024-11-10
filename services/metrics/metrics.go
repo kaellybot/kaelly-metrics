@@ -1,8 +1,6 @@
 package metrics
 
 import (
-	"context"
-
 	amqp "github.com/kaellybot/kaelly-amqp"
 	"github.com/kaellybot/kaelly-metrics/repositories/metrics"
 	"github.com/rs/zerolog/log"
@@ -28,7 +26,6 @@ func (service *Impl) Consume() error {
 	return service.broker.Consume(queueName, service.consume)
 }
 
-func (service *Impl) consume(ctx context.Context,
-	message *amqp.RabbitMQMessage, correlationID string) {
-	service.repository.Write(ctx, message, correlationID)
+func (service *Impl) consume(ctx amqp.Context, message *amqp.RabbitMQMessage) {
+	service.repository.Write(message, ctx.CorrelationID, ctx.ReplyTo, ctx.Timestamp)
 }

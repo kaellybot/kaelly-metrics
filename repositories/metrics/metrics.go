@@ -1,7 +1,6 @@
 package metrics
 
 import (
-	"context"
 	"time"
 
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
@@ -13,21 +12,22 @@ func New(db databases.InfluxDBConnection) *Impl {
 	return &Impl{db: db}
 }
 
-func (impl *Impl) Write(ctx context.Context, message *amqp.RabbitMQMessage,
-	correlationID string) {
+func (impl *Impl) Write(message *amqp.RabbitMQMessage, correlationID, replyTo string,
+	timestamp time.Time) {
 	p := influxdb2.NewPoint(
 		"request",
 		map[string]string{
-			"game":     message.Game.String(),
-			"language": message.Language.String(),
-			"type":     message.Type.String(),
-			"userID":   message.UserID,
+			"game":          message.Game.String(),
+			"language":      message.Language.String(),
+			"type":          message.Type.String(),
+			"userID":        message.UserID,
+			"shard":         replyTo,
+			"correlationID": correlationID,
 		},
 		map[string]interface{}{
-			"correlationID": correlationID,
 			"requestNumber": 1,
 		},
-		time.Now())
+		timestamp)
 
 	// write asynchronously
 	impl.db.WriteAPI().WritePoint(p)

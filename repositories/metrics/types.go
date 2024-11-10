@@ -1,14 +1,15 @@
 package metrics
 
 import (
-	"context"
+	"time"
 
 	amqp "github.com/kaellybot/kaelly-amqp"
 	"github.com/kaellybot/kaelly-metrics/utils/databases"
 )
 
 type Repository interface {
-	Write(ctx context.Context, message *amqp.RabbitMQMessage, correlationID string)
+	Write(message *amqp.RabbitMQMessage, correlationID, replyTo string,
+		timestamp time.Time)
 }
 
 type Impl struct {
