@@ -6,7 +6,7 @@ go 1.22
 
 require (
 	github.com/influxdata/influxdb-client-go/v2 v2.14.0
-	github.com/kaellybot/kaelly-amqp v0.0.8-beta1
+	github.com/kaellybot/kaelly-amqp v0.0.9-beta2
 	github.com/prometheus/client_golang v1.20.5
 	github.com/rs/zerolog v1.28.0
 	github.com/spf13/viper v1.14.0
@@ -18,7 +18,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/uuid v1.3.1 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect

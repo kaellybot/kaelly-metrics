@@ -21,9 +21,9 @@ func GetBinding() amqp.Binding {
 	}
 }
 
-func (service *Impl) Consume() error {
+func (service *Impl) Consume() {
 	log.Info().Msgf("Consuming command requests...")
-	return service.broker.Consume(queueName, service.consume)
+	service.broker.Consume(queueName, service.consume)
 }
 
 func (service *Impl) consume(ctx amqp.Context, message *amqp.RabbitMQMessage) {

@@ -14,11 +14,8 @@ func New() (*Impl, error) {
 	// misc
 	db := databases.New()
 
-	broker, err := amqp.New(constants.RabbitMQClientID, viper.GetString(constants.RabbitMQAddress),
-		[]amqp.Binding{metrics.GetBinding()})
-	if err != nil {
-		return nil, err
-	}
+	broker := amqp.New(constants.RabbitMQClientID, viper.GetString(constants.RabbitMQAddress),
+		amqp.WithBindings(metrics.GetBinding()))
 
 	// repositories
 	metricRepo := metricRepo.New(db)
@@ -33,7 +30,12 @@ func New() (*Impl, error) {
 }
 
 func (app *Impl) Run() error {
-	return app.metricService.Consume()
+	if err := app.broker.Run(); err != nil {
+		return err
+	}
+
+	app.metricService.Consume()
+	return nil
 }
 
 func (app *Impl) Shutdown() {
