@@ -8,6 +8,7 @@ const (
 	// InfluxDB URL.
 	InfluxDBURL = "INFLUXDB_URL"
 
+	//nolint:gosec // False positive.
 	// InfluxDB Token, generated from WebUI > Load Data > API Tokens.
 	InfluxDBToken = "INFLUXDB_TOKEN"
 
