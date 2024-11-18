@@ -1,7 +1,10 @@
 package databases
 
 import (
+	"context"
+
 	"github.com/kaellybot/kaelly-metrics/models/constants"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
@@ -10,15 +13,16 @@ import (
 
 type InfluxDBConnection interface {
 	WriteAPI() api.WriteAPI
+	IsConnected() bool
 	Shutdown()
 }
 
-type InfluxDBConnectionImpl struct {
+type influxDBConnection struct {
 	client   influxdb2.Client
 	writeAPI api.WriteAPI
 }
 
-func New() *InfluxDBConnectionImpl {
+func New() InfluxDBConnection {
 	url := viper.GetString(constants.InfluxDBURL)
 	token := viper.GetString(constants.InfluxDBToken)
 	org := viper.GetString(constants.InfluxDBOrg)
@@ -27,19 +31,30 @@ func New() *InfluxDBConnectionImpl {
 	client := influxdb2.NewClient(url, token)
 	writeAPI := client.WriteAPI(org, bucket)
 
-	return &InfluxDBConnectionImpl{
+	return &influxDBConnection{
 		client:   client,
 		writeAPI: writeAPI,
 	}
 }
 
-func (connection *InfluxDBConnectionImpl) WriteAPI() api.WriteAPI {
-	return connection.writeAPI
+func (c *influxDBConnection) WriteAPI() api.WriteAPI {
+	return c.writeAPI
 }
 
-func (connection *InfluxDBConnectionImpl) Shutdown() {
+func (c *influxDBConnection) IsConnected() bool {
+	if c.client == nil {
+		return false
+	}
+
+	_, err := c.client.Health(context.Background())
+	return err == nil
+}
+
+func (c *influxDBConnection) Shutdown() {
+	log.Info().Msgf("Shutdown connection to InfluxDB")
+
 	// Since write is async, data is not flushed everytime.
 	// To not lose data, flush while shutting down.
-	connection.writeAPI.Flush()
-	connection.client.Close()
+	c.writeAPI.Flush()
+	c.client.Close()
 }

@@ -24,7 +24,7 @@ func (impl *Impl) Write(message *amqp.RabbitMQMessage, correlationID, replyTo st
 			"shard":         replyTo,
 			"correlationID": correlationID,
 		},
-		map[string]interface{}{
+		map[string]any{
 			"requestNumber": 1,
 		},
 		timestamp)
