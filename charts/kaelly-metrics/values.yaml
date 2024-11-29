@@ -47,9 +47,9 @@ resources:
   limits:
     # cpu: 100m
     memory: 512Mi
-  # requests:
+  requests:
   #   cpu: 100m
-  #   memory: 128Mi
+    memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
@@ -76,11 +76,6 @@ tolerations: []
 affinity: {}
 
 configMap:
-  REDIS_CACHE_RETENTION: "60m"
-  REDIS_CACHE_SIZE: "1000"
-  ALMANAX_CRON_TAB: "1 0 0 * * *"
-  UPDATE_SET_CRON_TAB: "0 0 2 * * *"
-  HTTP_TIMEOUT: "10s"
   PROBE_PORT: "9090"
   METRIC_PORT: "2112"
   LOG_LEVEL: "info"
