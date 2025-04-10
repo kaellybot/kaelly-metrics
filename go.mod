@@ -6,7 +6,7 @@ go 1.24
 
 require (
 	github.com/influxdata/influxdb-client-go/v2 v2.14.0
-	github.com/kaellybot/kaelly-amqp v0.0.9-beta2
+	github.com/kaellybot/kaelly-amqp v1.0.0
 	github.com/prometheus/client_golang v1.20.5
 	github.com/rs/zerolog v1.28.0
 	github.com/spf13/viper v1.14.0

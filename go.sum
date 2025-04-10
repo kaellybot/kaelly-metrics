@@ -147,8 +147,8 @@ github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839/go.mod h1
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/juju/gnuflag v0.0.0-20171113085948-2ce1bb71843d/go.mod h1:2PavIy+JPciBPrBUjwbNvtwB6RQlve+hkpll6QSNmOE=
-github.com/kaellybot/kaelly-amqp v0.0.9-beta2 h1:7XY6QJdJHDt/slNaSbv7SRB8RTSnM2J+00LuyJnwE1o=
-github.com/kaellybot/kaelly-amqp v0.0.9-beta2/go.mod h1:dyt607MGIsba2es5G0WNAXPSgAS+Az19bF25MubMjAg=
+github.com/kaellybot/kaelly-amqp v1.0.0 h1:VtbbF41IlNdH6/BKUfE/ZElOLUJT2r51fW7o0QG16Mc=
+github.com/kaellybot/kaelly-amqp v1.0.0/go.mod h1:SO8dV5G+7oAAnVghb/OvIBFMfW6ONg0MvoJWwIAI0CQ=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
