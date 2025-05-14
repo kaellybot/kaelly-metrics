@@ -105,10 +105,10 @@ jobs:
               --namespace kaellybot \
               --create-namespace \
               --set image.tag="${{ env.image_tag_name }}" \
-              --set secrets.INFLUXDB_URL="${{ secrets.MYSQL_URL }}" \
-              --set secrets.INFLUXDB_TOKEN="${{ secrets.MYSQL_USER }}" \
-              --set secrets.INFLUXDB_ORG="${{ secrets.MYSQL_PASSWORD }}" \
-              --set secrets.INFLUXDB_BUCKET="${{ secrets.MYSQL_DATABASE }}" \
+              --set secrets.INFLUXDB_URL="${{ secrets.INFLUXDB_URL }}" \
+              --set secrets.INFLUXDB_TOKEN="${{ secrets.INFLUXDB_TOKEN }}" \
+              --set secrets.INFLUXDB_ORG="${{ secrets.INFLUXDB_ORG }}" \
+              --set secrets.INFLUXDB_BUCKET="${{ secrets.INFLUXDB_BUCKET }}" \
               --set secrets.RABBITMQ_ADDRESS="${{ secrets.RABBITMQ_ADDRESS }}" \
               --set configMap.PROBE_PORT="${{ secrets.PROBE_PORT }}" \
               --set configMap.METRIC_PORT="${{ secrets.METRIC_PORT }}" \
