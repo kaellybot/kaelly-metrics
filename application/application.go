@@ -13,11 +13,20 @@ import (
 
 func New() (*Impl, error) {
 	// misc
+	prom := insights.NewPrometheusMetrics()
 	broker := amqp.New(constants.RabbitMQClientID, viper.GetString(constants.RabbitMQAddress),
-		amqp.WithBindings(metrics.GetBinding()))
+		amqp.WithBindings(metrics.GetBinding()),
+		// A refused message never reaches the consumer, so it would otherwise be
+		// invisible here: count it to spot a producer publishing without a game.
+		amqp.WithRejectedHandler(func(ctx amqp.Context, message *amqp.RabbitMQMessage, err error) {
+			log.Error().Err(err).
+				Str(constants.LogCorrelationID, ctx.CorrelationID).
+				Str(constants.LogType, message.GetType().String()).
+				Msgf("Message refused before reaching metrics")
+			prom.CountRejectedMessage(message.GetType().String())
+		}))
 	db := databases.New()
 	probes := insights.NewProbes(broker.IsConnected, db.IsConnected)
-	prom := insights.NewPrometheusMetrics()
 
 	// repositories
 	metricRepo := metricRepo.New(db)
